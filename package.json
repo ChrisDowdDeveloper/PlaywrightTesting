@@ -1,0 +1,23 @@
+{
+  "name": "ridgelineexample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:chrome": "npx playwright test --project=chromium",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:safari": "npx playwright test --project=webkit",
+    "test:chrome:headed": "npx playwright test --project=chromium --headed",
+    "test:firefox:headed": "npx playwright test --project=firefox --headed",
+    "test:safari:headed": "npx playwright test --project=webkit --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.14.2"
+  }
+}

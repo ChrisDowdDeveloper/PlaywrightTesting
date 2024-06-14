@@ -38,7 +38,7 @@ test.describe("Homepage visiblilty", () => {
 
 });
 
-test.describe.only("Homepage functionality", () => {
+test.describe("Homepage functionality", () => {
 
   test('test that navbar functionality works', async({ page }) => {
     await homepage.navbar('Electronics');

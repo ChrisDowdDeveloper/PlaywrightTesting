@@ -5,7 +5,7 @@ let searchPage;
 
 test.beforeEach(async({ page }) => {
     searchPage = new SearchPage(page);
-    await page.goto('https://www.ebay.com');
+    await page.goto();
 });
 
 
@@ -28,7 +28,7 @@ test('test that applying multiple filters to search results works as intended', 
     expect(page.url()).toMatch(/Shoe.*Size.*Brand.*Nike.*adidas/);
 });
 
-test.only('test that sorting search results works as inteded', async() => {
+test('test that sorting search results works as inteded', async() => {
     await searchPage.performSearch('shoes');
     let sorted = await searchPage.selectSortOption('Time: ending soonest')
     expect(sorted)

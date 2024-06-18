@@ -3,6 +3,13 @@ const SignUpPage = require('../pages/SignUpPage').default;
 
 let signUp;
 
+// Defined test data
+const email = "valoy85133@dovinou.com";
+const password = "Obvi0uslyF4k3!";
+const firstName = "Bob";
+const lastName = "Bobington";
+const invalidEmail = "InvalidEmail";
+
 /**
  * Before each test, create the sign in page and navigate to it
  */
@@ -18,18 +25,12 @@ test.beforeEach(async({ page }) => {
 /**
  * Grouping of tests for valid scenarios
  */
-test.describe('Valid Scenarios', () => {
+test.describe.only('Valid Scenarios', () => {
 
     /**
      * Test to verify that entering valid credentials creates an account
      */
-    test('test that entering valid credentials creates an account', async() => {
-
-        // Defined test data
-        const email = "valoy85133@dovinou.com";
-        const password = "Obvi0uslyF4k3!";
-        const firstName = "Bob";
-        const lastName = "Bobington";
+    test('user can create an account using valid login credentials', async() => {
 
         // Method call to create an account with the defined test data
         await signUp.createAccount(firstName, lastName, email, password);
@@ -44,7 +45,7 @@ test.describe('Valid Scenarios', () => {
     /**
      * Test to verify that a user can click the "already have an account? sign in" link and be redirected to the login page
      */
-    test('test that redirect to sign in page works', async({ page }) => {
+    test('user can successfully be redirected to the login page from the create account page', async({ page }) => {
 
         // Method call to redirect the user to the login page
         await signUp.loginPageRedirect();
@@ -56,10 +57,7 @@ test.describe('Valid Scenarios', () => {
     /**
      * Test to verify that the password cannot be copied from the password field and be pasted elsewhere.
      */
-    test("test that password cannot be copied and pasted", async () => {
-
-        // Defined password data
-        const password = 'Obvi0uslyF4k3!'
+    test("user cannot copy and paste the password", async () => {
 
         // Method call to copy and paste the defined password data
         const pastedValue = await signUp.copyPassword(password);
@@ -71,7 +69,7 @@ test.describe('Valid Scenarios', () => {
     /**
      * Test to verify that clicking the "Create Business Account" gives the user the correct form
      */
-    test('test that create business account button works', async() => {
+    test('user can click create business account and the create business form is displayed', async() => {
 
         // Method call to click the "Create Business Account" button
         const createBusinessAcct = await signUp.createBusinessAccountRedirect();
@@ -89,52 +87,75 @@ test.describe('Valid Scenarios', () => {
 test.describe('Invalid Scenarios', () => {
 
     /**
-     * Test to verify that the user cannot create an account if the First Name field has less than 2 characters
+     * Test to verify that the user cannot create an account if the First Name field is empty
      */
-    test("test that create account doesn't work if first name is less than 2 characters", async() => {
-
+    test("user cannot create an account without a first name", async() => {
+        await signUp.invalidFirstName(email, password, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy();
     });
 
     /**
-     * Test to verify that the user cannot create an account if the Last Name field has less than 2 characters
+     * Test to verify that the user cannot create an account if the Last Name field is empty
      */
-    test("test that create account doesn't work if last name is less than 2 characters", async () => {
-
+    test("user cannot create an account without a last name", async () => {
+        await signUp.invalidLastName(email, password, firstName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
     /**
-     * Test to verify that the user cannot create an account if the Email field has less than 2 characters
+     * Test to verify that the user cannot create an account if the Email field isn't formatted properly
      */
-    test("test that create account doesn't work with an invalid email", async() => {
+    test("user cannot create an account with an invalid email format", async() => {
+        await signUp.invalidEmail(invalidEmail, password, firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
+    });
 
+    /**
+     * Test to verify that the user cannot create an account if the Email field is empty
+     */
+    test('user cannot create an account without an email', async() => {
+        await signUp.noEmail(password, firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
     /**
      * Test to verify that the user cannot create an account if the password doesn't contain a number or special character
      */
-    test("test that create account doesn't work without at least 1 number or special character in password", async() => {
-
+    test("user cannot create an account without at least 1 number or special character in the password", async() => {
+        await signUp.invalidPassword(email, "ObviouslyFake", firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
     /**
      * Test to verify that the user cannot create an account without at least 1 capital letter in the password
      */
-    test("test that create account doesn't work without at least 1 capital letter in password", async() => {
-
+    test("user cannot create an account without at least 1 capital letter in the password", async() => {
+        await signUp.invalidPassword(email, "obvi0uslyf4k3!", firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
     /**
      * Test to verify that the user cannot create an account without at least 1 letter in the password
      */
-    test("test that create account doesn't work without at least 1 letter in password", async() => {
-
+    test("user cannot create an account without at least 1 letter in the password", async() => {
+        await signUp.invalidPassword(email, "08^10*514324$5", firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
     /**
      * Test to verify that the user cannot create an account if the password is less than 8 characters
      */
-    test("test that create account doesn't work if the password length is less than 8 characters", async() => {
-
+    test("user cannot create an account without at least 8 characters in the password", async() => {
+        await signUp.invalidPassword(email, "Obv10s", firstName, lastName);
+        const buttonState = await signUp.buttonIsDisabled();
+        expect(buttonState).toBeTruthy()
     });
 
 });

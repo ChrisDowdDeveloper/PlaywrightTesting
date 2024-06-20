@@ -3,6 +3,10 @@ class SearchPage {
         this.page = page;
     }
 
+    async goto() {
+        await this.page.goto("https://www.ebay.com");
+    }
+
     async enterSearchQuery(item) {
         await this.page.getByPlaceholder('Search for anything').click();
         await this.page.getByPlaceholder('Search for anything').fill(item);

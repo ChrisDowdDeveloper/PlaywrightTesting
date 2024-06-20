@@ -3,46 +3,89 @@ const SearchPage = require('../pages/SearchPage').default;
 
 let searchPage;
 
+/**
+ * Creates a fresh page and navigates to the homepage before each test
+ */
 test.beforeEach(async({ page }) => {
     searchPage = new SearchPage(page);
-    await page.goto();
+    await searchPage.goto();
 });
 
+/**
+ * Verifies that the user can search for an item and the item appears in the url
+ */
+test('user can search for an item and the item appears as a search parameter', async () => {
 
-test('test that basic search displays results', async ({ page }) => {
+    // Method call to perform a search for airplanes
     await searchPage.performSearch('airplanes');
-    expect(page.url()).toContain('airplanes');
+
+    // Assert that the current URL contains the word airplanes verifying that it searched properly
+    expect(searchPage.page.url()).toContain('airplanes');
 });
 
+/**
+ * Verifies that the user can apply a filter and the filter appears in the url
+ */
+test('user can apply a result filter and the filter appears as a url parameter', async () => {
 
-test('test that applying a filter works as intended', async ({ page }) => {
+    // Method call to perform a search for shoes
     await searchPage.performSearch('shoes');
+
+    // Method call to apply a filter
     await searchPage.applyFilter();
-    expect(page.url()).toMatch(/Shoe.*Size/);
+
+    // Assert that the current URL contains shoes and size verifying that the search and filter was applied
+    expect(searchPage.page.url()).toMatch(/Shoe.*Size/);
 });
 
+/**
+ * Verifies that the user can apply multiple filters and the filters appear in the url
+ */
+test('user can apply multiple filters and the filters appear as url parameters', async() => {
 
-test('test that applying multiple filters to search results works as intended', async({ page }) => {
+    // Method call to perform a search for shoes
     await searchPage.performSearch('shoes');
+
+    // Method call to apply multiple filters
     await searchPage.applyMultipleFilters();
-    expect(page.url()).toMatch(/Shoe.*Size.*Brand.*Nike.*adidas/);
+
+    // Assert that the current URL contains shoes, size, and the brands from the applied filters
+    expect(searchPage.page.url()).toMatch(/Shoe.*Size.*Brand.*Nike.*adidas/);
 });
 
-test('test that sorting search results works as inteded', async() => {
+/**
+ * Verifies that the user can sort the results 
+ */
+test('user can sort the results', async() => {
+
+    // Method call to perform a search for shoes
     await searchPage.performSearch('shoes');
-    let sorted = await searchPage.selectSortOption('Time: ending soonest')
+
+    // Method call to apply the sort for the listing that are ending the soonest
+    let sorted = await searchPage.selectSortOption('Time: ending soonest');
+    
+    //TODO - Write a test to compare the before sort and after sort
     expect(sorted)
 });
 
-test('test that users can search for more items after search results are displayed', async() => {
-
+/**
+ * Verifies that after searching for an item, they can search for another
+ */
+test('user can use the search bar for another item after already searching for 1 item', async() => {
+    //TODO - finish test
 });
 
-test("test that no results are displayed on non-existing items", () => {
-
+/**
+ * Verifies that the user cannot see any results for an item that doesn't exist
+ */
+test("user cannot see results for items that do not exist", () => {
+    //TODO - finish test
 });
 
-test('test that suggested items are displayed when typing in search bar', async() => {
-
+/**
+ * Verifies that the user can see suggested items while typing
+ */
+test('user can see suggested items while searching in the search bar', async() => {
+    //TODO - finish test
 });
 

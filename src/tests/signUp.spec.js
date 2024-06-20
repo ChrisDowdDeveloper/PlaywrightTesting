@@ -78,6 +78,13 @@ test.describe.only('Valid Scenarios', () => {
         expect(createBusinessAcct).toContain('Create business account');
     });
 
+    /**
+     * Test to verify that a user cannot create an account with an email address that already exists in database
+     */
+    test('user is prompted that an email is already in use if trying to sign up with email', async() => {
+        //TODO - finish test
+    });
+
 });
 
 
@@ -90,8 +97,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account if the First Name field is empty
      */
     test("user cannot create an account without a first name", async() => {
+
+        // Method call to enter a valid email, password and last name but no first name
         await signUp.invalidFirstName(email, password, lastName);
+
+        // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy();
     });
 
@@ -99,8 +112,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account if the Last Name field is empty
      */
     test("user cannot create an account without a last name", async () => {
+
+        // Method call to enter a valid email, password, and first name but no last name
         await signUp.invalidLastName(email, password, firstName);
+
+        // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
@@ -108,8 +127,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account if the Email field isn't formatted properly
      */
     test("user cannot create an account with an invalid email format", async() => {
+
+        // Method call to enter a valid password, first name, and last name but enter an invalid email
         await signUp.invalidEmail(invalidEmail, password, firstName, lastName);
+
+        // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method called returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
@@ -117,8 +142,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account if the Email field is empty
      */
     test('user cannot create an account without an email', async() => {
+
+        // Method call to enter a valid password, first name, and last name but no email
         await signUp.noEmail(password, firstName, lastName);
+
+        // Method call to verify that the sign up button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
@@ -126,8 +157,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account if the password doesn't contain a number or special character
      */
     test("user cannot create an account without at least 1 number or special character in the password", async() => {
+
+        // Method call to enter a valid email, first name, and last name and a password that has no numbers or characters
         await signUp.invalidPassword(email, "ObviouslyFake", firstName, lastName);
+
+        // Method call to verify that the sign up button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
@@ -135,8 +172,14 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account without at least 1 capital letter in the password
      */
     test("user cannot create an account without at least 1 capital letter in the password", async() => {
+
+        // Method call to enter a valid email, first name, and last name and a password that doesn't contain a capital letter
         await signUp.invalidPassword(email, "obvi0uslyf4k3!", firstName, lastName);
+
+        // Method call to verify that the sign up button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
@@ -144,17 +187,29 @@ test.describe('Invalid Scenarios', () => {
      * Test to verify that the user cannot create an account without at least 1 letter in the password
      */
     test("user cannot create an account without at least 1 letter in the password", async() => {
+
+        // Method call to enter a valid email, first name and last name, and a password that doesn't contain a letter
         await signUp.invalidPassword(email, "08^10*514324$5", firstName, lastName);
+
+        // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 
-    /**
+    /** 
      * Test to verify that the user cannot create an account if the password is less than 8 characters
      */
     test("user cannot create an account without at least 8 characters in the password", async() => {
+
+        // Method call to enter a valid email, first name, and last name, and a password that contains less than 8 characters
         await signUp.invalidPassword(email, "Obv10s", firstName, lastName);
+
+        // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
+
+        // Assert that the method call returned true indicating that the button is disabled
         expect(buttonState).toBeTruthy()
     });
 

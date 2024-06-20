@@ -99,7 +99,7 @@ test.describe('Invalid Scenarios', () => {
     test("user cannot create an account without a first name", async() => {
 
         // Method call to enter a valid email, password and last name but no first name
-        await signUp.invalidFirstName(email, password, lastName);
+        await signUp.noFirstName(email, password, lastName);
 
         // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();
@@ -114,7 +114,7 @@ test.describe('Invalid Scenarios', () => {
     test("user cannot create an account without a last name", async () => {
 
         // Method call to enter a valid email, password, and first name but no last name
-        await signUp.invalidLastName(email, password, firstName);
+        await signUp.noLastName(email, password, firstName);
 
         // Method call to verify that the signup button is disabled
         const buttonState = await signUp.buttonIsDisabled();

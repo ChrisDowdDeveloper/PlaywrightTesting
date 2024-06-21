@@ -8,6 +8,7 @@ class LoginPage {
      * @param {object} page - Playwright page object, represents a browser tab
      */
     constructor(page) {
+        
         this.page = page;
     }
 
@@ -15,6 +16,7 @@ class LoginPage {
      * Method call to navigate to the signin page on ebay
      */
     async goto() {
+
         await this.page.goto("https://signin.ebay.com/ws/eBayISAPI.dll?SignIn&sgfl=gh&ru=https%3A%2F%2Fwww.ebay.com%2F");
     }
 
@@ -30,6 +32,7 @@ class LoginPage {
      * @param {string} email 
      */
     async enterEmail(email) {
+
         await this.page.getByTestId(userid).click().fill(email);
     }
 }

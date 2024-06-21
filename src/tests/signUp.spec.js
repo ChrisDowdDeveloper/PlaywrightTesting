@@ -25,7 +25,7 @@ test.beforeEach(async({ page }) => {
 /**
  * Grouping of tests for valid scenarios
  */
-test.describe.only('Valid Scenarios', () => {
+test.describe('Valid Scenarios', () => {
 
     /**
      * Test to verify that entering valid credentials creates an account
@@ -82,7 +82,12 @@ test.describe.only('Valid Scenarios', () => {
      * Test to verify that a user cannot create an account with an email address that already exists in database
      */
     test('user is prompted that an email is already in use if trying to sign up with email', async() => {
-        //TODO - finish test
+
+        // Method call to try to create an account with an email that already exists in the database
+        const createAttempt = await signUp.existingEmail("tokig42046@elahan.com", password, firstName, lastName);
+
+        // Assert that the method call returns true, indicating that the user receives an error screen
+        expect(createAttempt).toBeTruthy();
     });
 
 });

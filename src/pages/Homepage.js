@@ -8,6 +8,7 @@ class Homepage {
      * @param {object} page - Playwright page object which represents a browser tab 
      */
     constructor(page) {
+
         this.page = page;
     }
 
@@ -15,6 +16,7 @@ class Homepage {
      * Method to navigate to the ebay homepage
      */
     async goto() {
+
         await this.page.goto('https://www.ebay.com');
     }
 
@@ -23,7 +25,9 @@ class Homepage {
      * @returns {Promise<boolean>} - True if the logo is visbile, false if not
      */
     async isLogoVisible() {
+
         const logo = await this.page.getByRole('link', { name: 'eBay Home' });
+
         return logo.isVisible();
     }
 
@@ -32,7 +36,9 @@ class Homepage {
      * @returns {Promise<boolean>} - True if the search bar is visible, false if not
      */
     async isSearchVisible() {
-        const search = await this.page.getByPlaceholder('Search for anything')
+
+        const search = await this.page.getByPlaceholder('Search for anything');
+
         return search.isVisible();
     }
 
@@ -41,7 +47,9 @@ class Homepage {
      * @returns {Promise<boolean>} - True if the sign in link is visible, false if not
      */
     async isSignInLinkVisible() {
+
         const signInLink = await this.page.getByRole('link', { name: 'Sign in' });
+
         return signInLink.isVisible();
     }
 
@@ -50,7 +58,9 @@ class Homepage {
      * @returns {Promise<boolean>} - True if the shopping cart icon is visible, false if not
      */
     async isCartVisible() {
+
         const cartIcon = await this.page.getByRole('link', { name: 'Your shopping cart' });
+
         return cartIcon.isVisible();
     }
 
@@ -60,7 +70,9 @@ class Homepage {
      * @returns {Promise<boolean>} - True if the specific footer link is visible, false if not
      */
     async isFooterLinkVisible(linkName) {
+
         const footerLink = await this.page.getByRole('heading', { name: linkName }).getByRole('link');
+
         return footerLink.isVisible();
     }
 
@@ -69,8 +81,11 @@ class Homepage {
      * @param {string} item - The name of an item
      */
     async searchFor(item) {
+
         await this.page.getByPlaceholder('Search for anything').click();
+
         await this.page.getByPlaceholder('Search for anything').fill(item);
+
         await this.page.getByRole('button', { name: 'Search' }).click();
     }
 
@@ -78,6 +93,7 @@ class Homepage {
      * Method call to click the Daily Deals link
      */
     async dailyDeals() {
+
         await this.page.getByRole('link', { name: 'Daily Deals' }).click();
     }
 
@@ -86,6 +102,7 @@ class Homepage {
      * @param {string} linkName 
      */
     async navbar(linkName) {
+        
         await this.page.getByRole('link', { name: linkName, exact: true }).click();
     }
 }

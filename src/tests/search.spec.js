@@ -56,7 +56,7 @@ test('user can apply multiple filters and the filters appear as url parameters',
 /**
  * Verifies that the user can sort the results 
  */
-test.only('user can sort the results', async() => {
+test('user can sort the results', async() => {
 
     // Method call to perform a search for shoes
     await searchPage.performSearch('shoes');

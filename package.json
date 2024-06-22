@@ -10,7 +10,9 @@
     "test:safari": "npx playwright test --project=webkit",
     "test:chrome:headed": "npx playwright test --project=chromium --headed",
     "test:firefox:headed": "npx playwright test --project=firefox --headed",
-    "test:safari:headed": "npx playwright test --project=webkit --headed"
+    "test:safari:headed": "npx playwright test --project=webkit --headed",
+    "automated:headless": "npx playwright test tests/homePage.spec.js tests/search.spec.js",
+    "automated:headed": "npx playwright test tests/homePage.spec.js tests/search.spec.js --headed"
   },
   "keywords": [],
   "author": "",

@@ -8,7 +8,6 @@ class SignUpPage {
      * @param {object} page - Playwright page object, represents a browser tab
      */
     constructor(page) {
-
         this.page = page;
     }
 
@@ -16,7 +15,6 @@ class SignUpPage {
      * Method call to navigate to the signup page of ebay
      */
     async goto() {
-
         await this.page.goto("https://signup.ebay.com/pa/crte");
     }
     
@@ -25,11 +23,8 @@ class SignUpPage {
      * @param {string} firstName - The first name to enter
      */
     async enterFirstName(firstName) {
-
         const firstNameField = await this.page.getByLabel('First name');
-
         firstNameField.click();
-
         firstNameField.fill(firstName);
     }
 
@@ -38,11 +33,8 @@ class SignUpPage {
      * @param {string} lastName - The last name to enter
      */
     async enterLastName(lastName) {
-
         const lastNameField = await this.page.getByLabel('Last name');
-
         await lastNameField.click();
-
         await lastNameField.fill(lastName);
     }
 
@@ -51,11 +43,8 @@ class SignUpPage {
      * @param {string} email - The email to enter into the email field
      */
     async enterEmail(email) {
-
         const emailField = await this.page.getByLabel('Email');
-
         await emailField.click();
-
         await emailField.fill(email);
     }
 
@@ -64,11 +53,8 @@ class SignUpPage {
      * @param {string} password - The password to enter 
      */
     async enterPassword(password) {
-
         const passwordField = await this.page.getByLabel('Password', { exact: true });
-
         await passwordField.click();
-
         await passwordField.fill(password);
     }
 
@@ -82,23 +68,17 @@ class SignUpPage {
      * @returns - The value it pasted into the google search bar
      */
     async copyPassword(password) {
-
         await this.enterPassword(password);
 
         await this.page.getByLabel('Password', { exact: true }).press('ControlOrMeta+a');
-
         await this.page.getByLabel('Password', { exact: true }).press('ControlOrMeta+c');
 
         await this.page.goto('https://www.google.com');
-
         const searchInput = await this.page.getByLabel('Search', { exact: true });
-
         await searchInput.click();
-
         await searchInput.press('ControlOrMeta+v');
 
         const pastedValue = await searchInput.inputValue();
-
         return pastedValue;
     }
 
@@ -110,13 +90,9 @@ class SignUpPage {
      * @param {string} password - The password to enter
      */
     async createAccount(firstName, lastName, email, password) {
-
         await this.enterFirstName(firstName);
-
         await this.enterLastName(lastName);
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
 
         await this.page.getByRole('button', { name: 'Create personal account' }).click();
@@ -127,11 +103,8 @@ class SignUpPage {
      * @returns - The content of the heading
      */
     async loggedInHomepage() {
-
         const addPhoneNumber = await this.page.getByRole('heading', { name: 'Add your phone number' });
-
         const headingText = await addPhoneNumber.textContent();
-
         return headingText;
     }
 
@@ -139,7 +112,6 @@ class SignUpPage {
      * Method call to click the sign in from the create account page
      */
     async loginPageRedirect() {
-
         await this.page.getByRole('link', { name: 'Sign in' }).click();
     }
 
@@ -148,11 +120,8 @@ class SignUpPage {
      * @returns {Promise<string>} - Text content from the legal text at the bottom of the form
      */
     async createBusinessAccountRedirect() {
-
         await this.page.getByText('Business').click();
-
         const legalText = await this.page.locator('#legalTextId');
-
         return legalText.textContent();
     }
 
@@ -163,11 +132,8 @@ class SignUpPage {
      * @param {string} lastName - A valid last name to enter
      */
     async noFirstName(email, password, lastName) {
-
         await this.enterLastName(lastName);
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
     }
 
@@ -178,11 +144,8 @@ class SignUpPage {
      * @param {string} firstName - A valid first name to enter
      */
     async noLastName(email, password, firstName) {
-
         await this.enterFirstName(firstName);
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
     }
 
@@ -194,13 +157,9 @@ class SignUpPage {
      * @param {string} lastName - A valid last name to enter
      */
     async invalidEmail(email, password, firstName, lastName) {
-
         await this.enterFirstName(firstName);
-
         await this.enterLastName(lastName);
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
     }
 
@@ -211,11 +170,8 @@ class SignUpPage {
      * @param {string} lastName - A valid last name to enter
      */
     async noEmail(password, firstName, lastName) {
-
         await this.enterFirstName(firstName);
-
         await this.enterLastName(lastName);
-
         await this.enterPassword(password);
     }
 
@@ -227,13 +183,9 @@ class SignUpPage {
      * @param {string} lastName - A valid last name to enter
      */
     async invalidPassword(email, password, firstName, lastName) {
-
         await this.enterFirstName(firstName);
-
         await this.enterLastName(lastName);
-
         await this.enterEmail(email);
-
         await this.enterPassword(password);
     }
 
@@ -242,9 +194,7 @@ class SignUpPage {
      * @returns {Promise<boolean>} - True if the button is disabled, false if not
      */
     async buttonIsDisabled() {
-
         let button = await this.page.getByRole('button', { name: 'Create personal account' });
-
         return button.isDisabled();
     }
 
@@ -257,11 +207,8 @@ class SignUpPage {
      * @returns {Promise<boolean>} - True if a heading is found that says "Account already exists", false if not
      */
     async existingEmail(email, password, firstName, lastName) {
-
         await this.createAccount(firstName, lastName, email, password);
-
         const accountExists = await this.page.getByRole('heading', { name: "An account already exists" });
-        
         return accountExists;
     }
 }

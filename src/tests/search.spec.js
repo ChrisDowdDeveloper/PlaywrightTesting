@@ -39,8 +39,15 @@ test('user can apply multiple filters and the filters appear as url parameters',
     await searchPage.performSearch('shoes');
     await searchPage.applyMultipleFilters();
     const searchResults = await searchPage.getSearchResults();
-    const searchResultHeadings = await searchResults.some(result => result.toLowerCase().includes("nike" || "adidas"));
-    expect(searchResultHeadings).toBeTruthy();
+
+    // Removes the first 2 elements of the array which are "Shop on eBay"
+    const elementRemoval = searchResults.slice(2);
+
+    const searchResultsNike = await elementRemoval.some(result => result.toLowerCase().includes("nike"));
+    const searchResultsAdidas = await elementRemoval.some(result => result.toLowerCase().includes("adidas"));
+
+    expect(searchResultsNike).toBeTruthy();
+    expect(searchResultsAdidas).toBeTruthy();
     expect(searchPage.page.url()).toMatch(/Shoe.*Size.*Brand.*Nike.*adidas/);
 });
 

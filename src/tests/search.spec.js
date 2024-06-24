@@ -12,11 +12,15 @@ test.beforeEach(async({ page }) => {
 });
 
 /**
- * Verifies that the user can search for an item and the item appears in the url
+ * Verifies that the user can search for an item
  */
 test('user can search for an item and the item appears as a search parameter', async () => {
     await searchPage.performSearch('airplanes');
+    const search = await searchPage.getSearchResults();
+    const searchResults = search.some(result => result.toLowerCase().includes('airplane'));
     expect(searchPage.page.url()).toContain('airplanes');
+    expect(searchResults).toBeTruthy();
+
 });
 
 /**
@@ -34,6 +38,9 @@ test('user can apply a result filter and the filter appears as a url parameter',
 test('user can apply multiple filters and the filters appear as url parameters', async() => {
     await searchPage.performSearch('shoes');
     await searchPage.applyMultipleFilters();
+    const searchResults = await searchPage.getSearchResults();
+    const searchResultHeadings = await searchResults.some(result => result.toLowerCase().includes("nike" || "adidas"));
+    expect(searchResultHeadings).toBeTruthy();
     expect(searchPage.page.url()).toMatch(/Shoe.*Size.*Brand.*Nike.*adidas/);
 });
 
@@ -53,8 +60,16 @@ test('user can sort the results', async() => {
  */
 test('user can use the search bar for another item after already searching for 1 item', async() => {
     await searchPage.performSearch('airplanes');
+    const firstSearch = await searchPage.getSearchResults();
+    const firstSearchResults = firstSearch.some(result => result.toLowerCase().includes('airplane'));
+    expect(searchPage.page.url()).toContain('airplanes');
+    expect(firstSearchResults).toBeTruthy();
+
     await searchPage.performSearch('games');
-    expect(searchPage.page.url()).toContain('games')
+    const secondSearch = await searchPage.getSearchResults();
+    const secondSearchResults = secondSearch.some(result => result.toLowerCase().includes('game'));
+    expect(searchPage.page.url()).toContain('games');
+    expect(secondSearchResults).toBeTruthy();
 });
 
 /**
@@ -71,6 +86,7 @@ test("user cannot see results for items that do not exist", async() => {
  */
 test('user can see suggested items while searching in the search bar', async() => {
     const result = await searchPage.suggestedSearches("fire");
-    expect(result[0]).toContain('fire');
+    const resultHeadings = result.every(result => result.toLowerCase().includes('fire'));
+    expect(resultHeadings).toBeTruthy();
 });
 

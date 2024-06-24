@@ -31,7 +31,7 @@ class SearchPage {
      * Method to click the search button
      */
     async clickSearchButton() {
-        await this.page.getByRole('button', { name: 'Search' }).click();
+        await this.page.getByRole('button', { name: 'Search', exact: true }).click();
     }
 
     /**
